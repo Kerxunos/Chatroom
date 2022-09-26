@@ -1,8 +1,5 @@
-# Chatroom
-I make a chatroom with python and I use socket
-Language: TR
-#ABOUT TOOL
-There is a client and server you should start server first
-server and client are should be in same network
-There is some packages i use socket, os, sys, _thread, _threading etc.
-That's All HAVE FUN !
+#Chatroom
+Merhabalar, bu benim ilk projem bu yazılım chatroom tarzı bir yazılımdır socket ve server-client ilişkisi kullanarak hazılanmıştır.
+Araç Hakkında: bu aracı kullanabilmek için öncelikle server ve clientin aynı ağa bağlı olması gerekmektedir.
+ÖNEMLİ: Aracın düzgün çalışlması için lütfen önce serveri hazırlayın ve bağlantı beklenirken clienti çalıştırıp server kurarken girdiğiniz bilgileri ("Bind IP, Bind Port") giriniz
+Hepsi bu kadar iyi eğlenceler :)
