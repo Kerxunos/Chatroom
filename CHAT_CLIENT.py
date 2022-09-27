@@ -4,15 +4,20 @@ import sys
 from threading import *
 import _thread
 import time
-print("Gerekli olan modülleri indirmeniz gerekmektedir indirmek istermisiniz ?")
-soru = input("(Y/N): ")
-if soru == "Y":
-    os.system("pip install socket")
-    os.system("pip install sys")
-    os.system("pip install time")
-if soru == "N":
-    print("hiç bir modül indirilmedi, eğer hata alırsanız aracı yeniden başlatın ve modülleri yükleyin")
-    time.sleep(2)
+
+# Dikkat: socket, sys, time ve threading modülleri Python Standart Kütüphanesi'nde bulunmaktadır.
+#
+#print("Gerekli olan modülleri indirmeniz gerekmektedir indirmek istermisiniz ?")
+#soru = input("(Y/N): ")
+#if soru == "Y":
+#    os.system("pip install socket")
+#    os.system("pip install sys")
+#    os.system("pip install time")
+#if soru == "N":
+#    print("hiç bir modül indirilmedi, eğer hata alırsanız aracı yeniden başlatın ve modülleri yükleyin")
+#    time.sleep(2)
+#
+
 print("Araç başlatılıyor...")
 time.sleep(2)
 print("""         ________  ______   ________    ___________   ________ ®
