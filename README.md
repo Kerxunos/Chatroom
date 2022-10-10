@@ -7,6 +7,7 @@
 __-----------------------------------------------------------------------------------------------------------------------__
 
 *LOG SYSTEM*
+
 you can find the log file in the program path or file
 if you are the server your log file name is will be: Server_INFO.log
 if you are the client your log file name is will be: Client_INFO.log
@@ -18,6 +19,7 @@ your IP Address, Messages(includin Server's messages), etc. in the client's log 
 __-----------------------------------------------------------------------------------------------------------------------__
 
 *SERVER*
+
 server is important because server is binds the connection
 server has special commands like /client_ip, /kick, /shutdown etc.
 server can be see the client's IP Adrress I add this feature because i worried about the unknown connections, if you doubt about the connection you can identify the connection with this feature
@@ -25,6 +27,7 @@ server can be see the client's IP Adrress I add this feature because i worried a
 __-----------------------------------------------------------------------------------------------------------------------__
 
 *SERVER COMMANDS*
+
 - /client_ip: server uses this command to see the client's IP Address (but this a new feature it can be buggy)
 - /kick: server uses this command to kick the client (you must restart the application but we will fix that bug)
 - /shutdown: server uses this command for turn off the application and connection
@@ -34,6 +37,7 @@ we will add new commands...
 __-----------------------------------------------------------------------------------------------------------------------__
 
 *CLIENT*
+
 client is depend on the server
 first server binds the connection then client is connects the server
 client is can just chatting and connecting the server
