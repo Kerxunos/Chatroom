@@ -1,18 +1,29 @@
-import os
-import socket
-import sys
-from threading import *
-import _thread
-import time
-print("Gerekli olan modülleri indirmeniz gerekmektedir indirmek istermisiniz ?")
-soru = input("(Y/N): ")
-if soru == "Y":
-    os.system("pip install socket")
-    os.system("pip install sys")
-    os.system("pip install time")
-if soru == "N":
-    print("hiç bir modül indirilmedi, eğer hata alırsanız aracı yeniden başlatın ve modülleri yükleyin")
-    time.sleep(2)
+try:
+    import os
+    import socket
+    import sys
+    from threading import *
+    import _thread
+    import time
+    from colorama import Style, init, Fore
+    import logging
+    logging.basicConfig(filename='Client_INFO.log', filemode='w', format='%(asctime)s - %(message)s', level=logging.INFO)
+    init(autoreset=True)
+except ModuleNotFoundError as e:
+    print(Fore.YELLOW + "[*] Gerekli olan modülleri indirmeniz gerekmektedir indirmek istermisiniz ?")
+    soru = input("(Y/N): ")
+    if soru == "Y":
+        os.system("pip install colorama")
+        print(Fore.GREEN + "Moduller indirildi !")
+    if soru == "N":
+        print(Fore.RED + "[!] hiç bir modül indirilmedi, eğer hata alırsanız aracı yeniden başlatın ve modülleri yükleyin")
+        time.sleep(2)
+#SON GÜNCELLEME TARİH: 9.10.2022
+#GÜNCELLEME YENİLİKLERİ: colorama ve logging kullanıma sunuldu
+#GÜNCELLEME BUGLARI: /clear ve /client_ip bir arada kullanılınca program bozuluyor (client yazıyor....) & (server yazıyor....) ve kimse konuşamıyor
+#TAHMİNİ DEBUG TARİHİ: 10.10.2022
+print(Fore.RED + "Bu uygulama loglama sistemine sahiptir lütfen saygı çerçevesinde ve kibarca konuşmaya dikkat edin !")
+time.sleep(2)
 print("Araç başlatılıyor...")
 time.sleep(2)
 print("""         ________  ______   ________    ___________   ________ ®
@@ -20,35 +31,38 @@ print("""         ________  ______   ________    ___________   ________ ®
         / // /_/ / /      / /   / /    / // __/ /  |/ / / /   
       _/ // _, _/ /___   / /___/ /____/ // /___/ /|  / / /    
      /___/_/ |_|\____/   \____/_____/___/_____/_/ |_/ /_/
-         by @Larry                                         v2.65 """)
+         by @Larry                                         v2.65(Beta) """)
 time.sleep(2)
-
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 hostname = socket.gethostname()
 ip = socket.gethostbyname(hostname)
-print("Fiziksel soket oluşturuldu !")
+print(f"[*] IP Adresiniz: {ip}")
+logging.info(f"Client IP: {ip}")
+print(Fore.GREEN + "[*] Fiziksel soket oluşturuldu !")
 time.sleep(2)
-print("[*] Serveri LocalHost(127.0.0.1) yada IP adresinize kurmanız gerekmektedir")
+print(Fore.YELLOW + "[!] Lütfen İstemci IP Adresi ve Port numarasını doğru girdiğinizden emin olun !")
 time.sleep(0.75)
-print("[*] Port Numarasını 5000'den büyük seçmeniz önerilir")
+print("[*] Please Report any bug to my github page")
 time.sleep(2)
 host = str(input("Server IP: "))
 port = int(input("Server Port: "))
 print(f"[*] Host: {host} Port: {port}")
+logging.info(f"Host: {host} Port: {port}")
 time.sleep(1)
 print("Server'a bağlanmaya çalışıyoruz...")
 s.connect((host, port))
 
-print("Server'a bağlanıldı !")
+print(Fore.GREEN + "Server'a bağlanıldı !")
 uname = input("Kullanıcı adı giriniz: ")
+logging.info(f"Client Username: {uname}")
 print("Serverin kullanıcı adı bekleniyor...")
 uname1 = uname.encode()
 s.send(uname1)
 ser_uname = s.recv(1024)
 ser_uname = ser_uname.decode()
 print(f"Server kullanıcı adı: {ser_uname}")
+logging.info(f"Server Username: {ser_uname}")
 time.sleep(2)
-
 while True:
     try:
         print(f"Server({ser_uname}) yazıyor...")
@@ -58,9 +72,21 @@ while True:
             print("Server tarafından kicklendiniz")
             time.sleep(2)
             sys.exit(0)
+        if ser_msg == "/shutdown":
+            print("server bağlantıyı sonlandırdı")
+            time.sleep(1)
+            s.close()
+            sys.exit(0)
+        if ser_msg == "/client_ip":
+            ip1 = ip.encode()
+            s.send(ip1)
+        if ser_msg == "/clear":
+            os.system("cls")
         print(f"{ser_uname}: {ser_msg}")
+        logging.info(f"{ser_uname}: {ser_msg}")
         msg = input(f"{uname}--> ")
         print(f"{uname}: {msg}")
+        logging.info(f"{uname}: {msg}")
         msg1 = msg.encode()
         s.send(msg1)
     except KeyboardInterrupt as e:
