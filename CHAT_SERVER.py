@@ -29,7 +29,7 @@ print("""             ________  ______   _____ __________ _    ____________ ®
             / // /_/ / /       \__ \/ __/ / /_/ / | / / __/ / /_/ /
           _/ // _, _/ /___    ___/ / /___/ _, _/| |/ / /___/ _, _/ 
          /___/_/ |_|\____/   /____/_____/_/ |_| |___/_____/_/ |_|  
-         by @Larry                                             v2.65(Beta)""")
+         by @Kerxunos                                             v2.65(Beta)""")
 time.sleep(2)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print(Fore.GREEN + "[*] Fiziksel soket oluşturuldu !")
