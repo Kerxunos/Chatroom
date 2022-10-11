@@ -2,8 +2,6 @@ try:
     import socket
     import sys
     import os
-    from threading import *
-    import _thread
     import time
     from colorama import Style, init, Fore
     import logging
