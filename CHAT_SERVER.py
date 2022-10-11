@@ -19,7 +19,7 @@ except ModuleNotFoundError as e:
 #SON GÜNCELLEME TARİH: 9.10.2022
 #GÜNCELLEME YENİLİKLERİ: colorama ve logging kullanıma sunuldu
 #GÜNCELLEME BUGLARI: /client_ip ip_rule isimli değişkene atandığı için kod yürüyebiliyor fakat client_ip hem ip_rule hem de msg değişkenine bağlı ip_rule çalışınca kod ilerliyor ve msg de çalışıyor bu yüzden client'e 2 kez /clien_ip mesajı gidiyor ve uygulama bozuluyor
- #TAHMİNİ DEBUG TARİHİ: 12.10.2022
+#TAHMİNİ DEBUG TARİHİ: 12.10.2022
 print(Fore.RED + "Bu uygulama loglama sistemine sahiptir lütfen saygı çerçevesinde ve kibarca konuşmaya dikkat edin !")
 time.sleep(2)
 print("Araç başlatılıyor...")
