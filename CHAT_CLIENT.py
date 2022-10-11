@@ -29,7 +29,7 @@ print("""         ________  ______   ________    ___________   ________ ®
         / // /_/ / /      / /   / /    / // __/ /  |/ / / /   
       _/ // _, _/ /___   / /___/ /____/ // /___/ /|  / / /    
      /___/_/ |_|\____/   \____/_____/___/_____/_/ |_/ /_/
-         by @Larry                                         v2.65(Beta) """)
+         by @Kerxunos                                         v2.65(Beta) """)
 time.sleep(2)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 hostname = socket.gethostname()
@@ -40,7 +40,7 @@ print(Fore.GREEN + "[*] Fiziksel soket oluşturuldu !")
 time.sleep(2)
 print(Fore.YELLOW + "[!] Lütfen İstemci IP Adresi ve Port numarasını doğru girdiğinizden emin olun !")
 time.sleep(0.75)
-print("[*] Please Report any bug to my github page")
+print("[*] Lütfen herhangi bir hatayı github sayfama raporlayın")
 time.sleep(2)
 host = str(input("Server IP: "))
 port = int(input("Server Port: "))
