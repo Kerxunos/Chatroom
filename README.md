@@ -13,7 +13,7 @@ __------------------------------------------------------------------------------
 git clone https://github.com/Kerxuons/Chatroom.git
 ```
 
-***If you are get a module not found error, it means you aren't install the colorama module you can install with like that:***
+***if you get a module not found error you can download it like this:***
 
 ```python
 pip install colorama
