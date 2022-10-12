@@ -60,4 +60,12 @@ but we will add new features to client dont worry
 
 __-----------------------------------------------------------------------------------------------------------------------__
 
+*MY TASK LIST*
+
+- [x] Update the program :tada:
+- [x] Add new features :tada:
+- [ ]
+
+__-----------------------------------------------------------------------------------------------------------------------__
+
 *THANK YOU FOR READ THE README.md FILE ENJOY*
