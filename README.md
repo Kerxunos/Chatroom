@@ -67,6 +67,7 @@ __------------------------------------------------------------------------------
 - [x] Make README.md better
 - [ ] Add English language support
 - [ ] Debug the program
+
 __-----------------------------------------------------------------------------------------------------------------------__
 
-*THANK YOU FOR READ THE README.md FILE ENJOY*
+*THANK YOU FOR READ THE README.md ENJOY*
