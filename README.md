@@ -1,8 +1,5 @@
 <h1>Chatroom</h1> 
 
-![Alt text](/eclipse-marketplace/l/:name)
-
-
 ![Chatroom2](https://user-images.githubusercontent.com/113096235/195297547-76ce4d07-80ef-4705-a112-24c373ced67b.png)
 
 
