@@ -10,7 +10,7 @@ __------------------------------------------------------------------------------
 
 ***Installation***
 ```
-git clone https://github.com/Kerxuons/Chatroom.git
+git clone https://github.com/Kerxuons/Chatroom
 ```
 
 ***if you get a module not found error you can download it like this:***
