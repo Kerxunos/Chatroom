@@ -1,6 +1,6 @@
 <h1>Chatroom</h1> 
 
-[![License: GPL v3](https://img.shields.io/github/license/Kerxunos/Chatroom)
+![License: GPL v3](https://img.shields.io/github/license/Kerxunos/Chatroom)
 ![Coding](https://img.shields.io/github/languages/top/Kerxunos/Chatroom)
 ![Size](https://img.shields.io/github/languages/code-size/Kerxunos/Chatroom)
 ![Colorama](https://img.shields.io/pypi/v/colorama)
