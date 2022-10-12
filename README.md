@@ -62,10 +62,11 @@ __------------------------------------------------------------------------------
 
 *MY TASK LIST*
 
-- [x] Update the program :tada:
-- [x] Add new features :tada:
-- [ ]
-
+- [x] Update the program 
+- [x] Add new features 
+- [x] Make README.md better
+- [ ] Add English language support
+- [ ] Debug the program
 __-----------------------------------------------------------------------------------------------------------------------__
 
 *THANK YOU FOR READ THE README.md FILE ENJOY*
