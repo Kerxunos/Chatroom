@@ -7,8 +7,10 @@
 ![Observatory_Grade](https://img.shields.io/mozilla-observatory/grade/github.com?publish)
 ![commit_acitivity](https://img.shields.io/github/commit-activity/w/Kerxunos/Chatroom)
 ![pyapi_format](https://img.shields.io/pypi/format/colorama)
+
 ![Chatroom2](https://user-images.githubusercontent.com/113096235/195297547-76ce4d07-80ef-4705-a112-24c373ced67b.png)
 
+__-----------------------------------------------------------------------------------------------------------------------__
 
 **IMPORTANT WARNING: THIS TOOL IS JUST FOR EDUCATIONAL PURPOSES ONLY WE ARE NOT TAKE ANY RESPONSIBILITY !!!!**
 
