@@ -72,7 +72,7 @@ but we will add new features to client dont worry
 
 __-----------------------------------------------------------------------------------------------------------------------__
 
-*MY TASK LIST*
+*TO-DO*
 
 - [x] Update the program 
 - [x] Add new features 
