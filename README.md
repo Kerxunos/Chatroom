@@ -8,7 +8,7 @@
 
 ##Installation
 
-'''
+'''git
 git clone https://github.com/Kerxuons/Chatroom
 '''
 
