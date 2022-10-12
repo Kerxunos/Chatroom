@@ -6,6 +6,9 @@
 
 **THIS TOOL HAS ONLY ONE LANGUAGE SUPPORT AVABILE LANGUAGES: TURKEY(TR), WE WILL ADD NEW LANGUAGES POSSIBLE LANGUAGE IS ENGLISH(EN)**
 
+Installation
+'''
+git clone https://github.com/Kerxuons/
 __-----------------------------------------------------------------------------------------------------------------------__
 
 *LOG SYSTEM*
