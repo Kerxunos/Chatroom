@@ -6,7 +6,7 @@
 
 **THIS TOOL HAS ONLY ONE LANGUAGE SUPPORT AVABILE LANGUAGES: TURKEY(TR), WE WILL ADD NEW LANGUAGES POSSIBLE LANGUAGE IS ENGLISH(EN)**
 
-***Installation
+***Installation***
 ```
 git clone https://github.com/Kerxuons/Chatroom
 ```
