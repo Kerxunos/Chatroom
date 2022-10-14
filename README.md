@@ -11,15 +11,14 @@
 
 ![Chatroom2](https://user-images.githubusercontent.com/113096235/195297547-76ce4d07-80ef-4705-a112-24c373ced67b.png)
 
-__-----------------------------------------------------------------------------------------------------------------------__
+# IMPORTANT WARNINGS
 
-**IMPORTANT WARNING: THIS TOOL IS JUST FOR EDUCATIONAL PURPOSES ONLY WE ARE NOT TAKE ANY RESPONSIBILITY !!!!**
+**THIS TOOL IS JUST FOR EDUCATIONAL PURPOSES ONLY WE ARE NOT TAKE ANY RESPONSIBILITY !!!!**
 
-**IMPORTANT WARNING: THIS PROGRAM IS USES LOG SYSTEM PLEASE BE POLITE AND BE CAREFULL YOUR SPEECH !!**
+**THIS PROGRAM IS USES LOG SYSTEM PLEASE BE POLITE AND BE CAREFULL YOUR SPEECH !!**
 
 **THIS TOOL HAS ONLY ONE LANGUAGE SUPPORT AVABILE LANGUAGES: TURKEY(TR), WE WILL ADD NEW LANGUAGES POSSIBLE LANGUAGE IS ENGLISH(EN)**
 
-__-----------------------------------------------------------------------------------------------------------------------__
 
 # Installation
 ```
@@ -32,7 +31,6 @@ git clone https://github.com/Kerxuons/Chatroom
 pip install colorama
 ```
 
-__-----------------------------------------------------------------------------------------------------------------------__
 
 # LOG SYSTEM
 
@@ -44,7 +42,6 @@ server and client is can accces only own log files
 your IP Address, Messages(including client's messages), Client's IP Address(if you use), etc. in the server's log file
 your IP Address, Messages(includin Server's messages), etc. in the client's log file
 
-__-----------------------------------------------------------------------------------------------------------------------__
 
 # SERVER
 
@@ -52,7 +49,6 @@ server is important because server is binds the connection
 server has special commands like /client_ip, /kick, /shutdown etc.
 server can be see the client's IP Adrress I add this feature because i worried about the unknown connections, if you doubt about the connection you can identify the connection with this feature
 
-__-----------------------------------------------------------------------------------------------------------------------__
 
 # SERVER COMMANDS
 
@@ -62,7 +58,6 @@ __------------------------------------------------------------------------------
 - /clear: server uses this command for clear the text (but this command is NOT delete the log)
 we will add new commands...
 
-__-----------------------------------------------------------------------------------------------------------------------__
 
 # CLIENT
 
@@ -71,7 +66,6 @@ first server binds the connection then client is connects the server
 client is can just chatting and connecting the server
 but we will add new features to client dont worry
 
-__-----------------------------------------------------------------------------------------------------------------------__
 
 # TO-DO
 
