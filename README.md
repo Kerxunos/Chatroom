@@ -76,6 +76,5 @@ but we will add new features to client dont worry
 - [ ] Debug the program
 - [ ] Add online chat support
 
-__-----------------------------------------------------------------------------------------------------------------------__
 
 *THANK YOU FOR READ THE README.md HAVE FUN !*
