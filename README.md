@@ -11,7 +11,7 @@
 
 ![Chatroom2](https://user-images.githubusercontent.com/113096235/195297547-76ce4d07-80ef-4705-a112-24c373ced67b.png)
 
-# IMPORTANT WARNINGS
+## IMPORTANT WARNINGS
 
 **THIS TOOL IS JUST FOR EDUCATIONAL PURPOSES ONLY WE ARE NOT TAKE ANY RESPONSIBILITY !!!!**
 
@@ -20,7 +20,7 @@
 **THIS TOOL HAS ONLY ONE LANGUAGE SUPPORT AVABILE LANGUAGES: TURKEY(TR), WE WILL ADD NEW LANGUAGES POSSIBLE LANGUAGE IS ENGLISH(EN)**
 
 
-# Installation
+## Installation
 ```
 git clone https://github.com/Kerxuons/Chatroom
 ```
@@ -32,7 +32,7 @@ pip install colorama
 ```
 
 
-# LOG SYSTEM
+## LOG SYSTEM
 
 you can find the log file in the program path or file
 if you are the server your log file name is will be: Server_INFO.log
@@ -43,14 +43,14 @@ your IP Address, Messages(including client's messages), Client's IP Address(if y
 your IP Address, Messages(includin Server's messages), etc. in the client's log file
 
 
-# SERVER
+## SERVER
 
 server is important because server is binds the connection
 server has special commands like /client_ip, /kick, /shutdown etc.
 server can be see the client's IP Adrress I add this feature because i worried about the unknown connections, if you doubt about the connection you can identify the connection with this feature
 
 
-# SERVER COMMANDS
+## SERVER COMMANDS
 
 - /client_ip: server uses this command to see the client's IP Address (but this a new feature it can be buggy)
 - /kick: server uses this command to kick the client (you must restart the application but we will fix that bug)
@@ -59,7 +59,7 @@ server can be see the client's IP Adrress I add this feature because i worried a
 we will add new commands...
 
 
-# CLIENT
+## CLIENT
 
 client is depend on the server
 first server binds the connection then client is connects the server
@@ -67,7 +67,7 @@ client is can just chatting and connecting the server
 but we will add new features to client dont worry
 
 
-# TO-DO
+## TO-DO
 
 - [x] Update the program 
 - [x] Add new features 
