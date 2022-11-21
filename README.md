@@ -38,9 +38,9 @@ you can find the log file in the program path or file
 if you are the server your log file name is will be: Server_INFO.log
 if you are the client your log file name is will be: Client_INFO.log
 server cant acces client's log file 
-server and client is can accces only own log files
+server and client is can access only own log files
 your IP Address, Messages(including client's messages), Client's IP Address(if you use), etc. in the server's log file
-your IP Address, Messages(includin Server's messages), etc. in the client's log file
+your IP Address, Messages(including Server's messages), etc. in the client's log file
 
 
 ## SERVER
