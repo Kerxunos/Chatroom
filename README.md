@@ -13,297 +13,809 @@
 
 # 💬 Chatroom
 
-A lightweight **client-server chatroom application built with Python** and designed for learning, experimentation, and understanding basic network communication.
+> **A reliable, terminal-based multi-client chat application built with Python sockets.**
 
-Chatroom provides a simple environment where a server manages connections and clients communicate through it in real time. The project also includes server-side administration commands and a built-in logging system.
+Chatroom is a lightweight **client-server terminal chat application** designed to remain usable even on **unstable or limited network connections**.
 
-> ⚠️ **Project status:** Beta / Educational Project
+Unlike a basic socket chat application, Chatroom includes automatic reconnection, application-level heartbeats, message queuing, chat history recovery, rate limiting, private messaging, room moderation and optional password protection.
+
+**Version:** `4.0`
+**Language:** Python 3
+**License:** GPL-3.0
 
 ---
 
 ## ✨ Features
 
-* 💬 Real-time client ↔ server messaging
-* 🖥️ Dedicated server and client applications
-* 🌐 Client connection management
-* 🔎 Server-side client IP inspection
-* 🚫 Client kicking system
-* 🛑 Server shutdown command
-* 🧹 Console/text clearing command
-* 📝 Automatic server and client logging
-* 🇹🇷 Turkish language support
-* 🐍 Python-based implementation
-* 🔧 Designed with extensibility in mind
+### 💬 Real-Time Messaging
 
----
+* Multi-client TCP communication
+* Real-time message broadcasting
+* Private messaging
+* Action messages
+* Username changing
+* Online user listing
+* Room topics
 
-## 🏗️ Architecture
+### 🌐 Connection Reliability
 
-Chatroom follows a simple **client-server architecture**:
+Chatroom was designed with unreliable connections in mind.
+
+* 🔄 Automatic reconnection
+* ❤️ Application-level heartbeat
+* 🔌 TCP keepalive
+* 📦 Outbound message queue
+* 🕐 Connection timeout detection
+* 📜 Message history recovery after reconnect
+* ⏳ Exponential-style reconnect delays
+
+When a connection is temporarily lost, messages typed by the user are **queued instead of being immediately lost**.
+
+Once the connection is restored, queued messages are automatically sent.
+
+### 🛡️ Anti-Spam Protection
+
+The server limits how quickly clients can send messages.
+
+Current limits:
 
 ```text
-                 ┌─────────────────┐
-                 │      SERVER     │
-                 │                 │
-                 │ Connection Mgmt │
-                 │ Logging         │
-                 │ Admin Commands  │
-                 └────────┬────────┘
-                          │
-              ┌───────────┼───────────┐
-              │           │           │
-              ▼           ▼           ▼
-          ┌───────┐   ┌───────┐   ┌───────┐
-          │Client │   │Client │   │Client │
-          │   01  │   │   02  │   │   03  │
-          └───────┘   └───────┘   └───────┘
+Maximum message length: 1000 characters
+Rate limit:              6 messages / 4 seconds
 ```
 
-The **server** is responsible for establishing and managing connections, while **clients** connect to the server and communicate through it.
+This helps prevent a single client from consuming excessive bandwidth or flooding the room.
 
----
+### 🔐 Password-Protected Rooms
 
-## 🖥️ Server
+Hosts can optionally protect their rooms with a password.
 
-The server is the central component of the application.
+```bash
+python chatroom.py host --port 5000 --username Kerxunos --password 1234
+```
 
-It is responsible for:
+Clients can then join using:
 
-* Accepting client connections
-* Managing connected clients
-* Handling communication
-* Monitoring client IP addresses
-* Executing administrative commands
-* Recording server-side activity
+```bash
+python chatroom.py join --ip 127.0.0.1 --port 5000 --username Ayse --password 1234
+```
 
-### Server Commands
+### 👑 Host Moderation
 
-| Command      | Description                                   |
-| ------------ | --------------------------------------------- |
-| `/client_ip` | Displays the IP address of a connected client |
-| `/kick`      | Kicks a client from the server                |
-| `/shutdown`  | Shuts down the server and closes connections  |
-| `/clear`     | Clears the current text/console               |
+The host has additional administrative commands:
 
-> **Note:** Some server commands are still under development and may have limitations in the current beta version.
+* `/mute`
+* `/unmute`
+* `/kick`
+* `/topic`
+* `/shutdown`
 
----
+This allows the room owner to manage the conversation without needing a separate administration interface.
 
-## 👤 Client
+### 📝 Logging
 
-The client application connects to an active Chatroom server.
-
-Once connected, users can communicate with other connected clients through the server.
-
-The current client focuses primarily on:
-
-* Connecting to the server
-* Sending messages
-* Receiving messages
-* Maintaining a chat session
-* Creating client-side logs
-
----
-
-## 📝 Logging System
-
-Chatroom includes a built-in logging system for both server and client applications.
-
-### Server log
+Both server and client activity can be logged automatically.
 
 ```text
 Server_INFO.log
-```
-
-### Client log
-
-```text
 Client_INFO.log
 ```
 
-Depending on the application and activity, logs may contain information such as:
-
-* IP addresses
-* Connection information
-* Messages
-* Server activity
-* Client activity
-
-### ⚠️ Privacy Notice
-
-Because the application records network and chat activity, **do not use it to collect, distribute, or expose information without the knowledge and consent of the participants.**
-
-If you deploy this project for other users, review the logging behavior and applicable privacy requirements before doing so.
+Logs are written in append mode so previous sessions are not automatically overwritten.
 
 ---
 
-## 🛠️ Tech Stack
+# 🏗️ Architecture
 
-| Technology           | Purpose                             |
-| -------------------- | ----------------------------------- |
-| 🐍 Python            | Core application                    |
-| 🌐 Socket Networking | Client-server communication         |
-| 🎨 Colorama          | Terminal output / formatting        |
-| 📝 Logging           | Server and client activity tracking |
+Chatroom uses a traditional **TCP client-server architecture**.
+
+```text
+                         ┌─────────────────────┐
+                         │       HOST          │
+                         │                     │
+                         │   ChatServer        │
+                         │   TCP Socket        │
+                         │   Room Management   │
+                         │   Moderation        │
+                         │   Message History   │
+                         └──────────┬──────────┘
+                                    │
+                         TCP / JSON │
+                                    │
+              ┌─────────────────────┼─────────────────────┐
+              │                     │                     │
+              ▼                     ▼                     ▼
+       ┌─────────────┐       ┌─────────────┐       ┌─────────────┐
+       │   CLIENT    │       │   CLIENT    │       │   CLIENT    │
+       │             │       │             │       │             │
+       │ ChatClient  │       │ ChatClient  │       │ ChatClient  │
+       │ Auto-Reconn │       │ Message Q.  │       │ Heartbeat   │
+       └─────────────┘       └─────────────┘       └─────────────┘
+```
+
+The server maintains connected clients and broadcasts messages.
+
+Clients communicate with the server through a lightweight **JSON-over-TCP protocol**.
 
 ---
 
-## 📦 Installation
+# 🔌 Communication Protocol
 
-### 1. Clone the repository
+Chatroom uses a simple line-based protocol.
+
+Each message is encoded as:
+
+```text
+JSON + newline
+```
+
+For example:
+
+```json
+{
+  "type": "chat",
+  "text": "Hello everyone!"
+}
+```
+
+The newline delimiter allows the receiver to correctly separate multiple messages arriving in a single TCP `recv()` call.
+
+This is handled by the internal `LineReceiver` class.
+
+### Supported message types include
+
+```text
+hello
+welcome
+chat
+action
+whisper
+whisper_sent
+heartbeat
+heartbeat_ack
+ping
+pong
+nick
+nick_ack
+list_request
+userlist
+topic
+kick
+shutdown
+bye
+system
+```
+
+---
+
+# 🔄 Connection Recovery
+
+One of the main goals of Chatroom is surviving temporary network failures.
+
+### Automatic Reconnection
+
+When a client loses its connection, it automatically attempts to reconnect using progressively longer delays:
+
+```text
+1s
+2s
+5s
+10s
+15s
+30s
+...
+```
+
+Once a connection is successfully restored, the retry counter resets.
+
+---
+
+## 📦 Message Queue
+
+Messages written while disconnected are placed into an outbound queue.
+
+```text
+User types message
+       │
+       ▼
+Connection available?
+   ┌───┴───┐
+  YES      NO
+   │        │
+   ▼        ▼
+ Send     Queue
+            │
+            ▼
+       Reconnection
+            │
+            ▼
+      Send queued
+       messages
+```
+
+This prevents messages from simply disappearing when the network temporarily goes down.
+
+---
+
+# ❤️ Heartbeat System
+
+Chatroom uses two levels of connection monitoring.
+
+### TCP Keepalive
+
+Sockets are configured with TCP keepalive where supported by the operating system.
+
+### Application Heartbeat
+
+The client periodically sends:
+
+```json
+{
+  "type": "heartbeat"
+}
+```
+
+The server responds with:
+
+```json
+{
+  "type": "heartbeat_ack"
+}
+```
+
+This allows the application to detect connections that appear open at the TCP level but are no longer actually usable.
+
+---
+
+# 📜 Message History
+
+The server keeps a configurable amount of recent chat history.
+
+Default:
+
+```text
+30 messages
+```
+
+When a client reconnects, the server sends the stored history along with the welcome packet.
+
+The client then displays:
+
+```text
+--- kaçırdığınız mesajlar ---
+[geçmiş] [14:21] Kerem: Merhaba
+[geçmiş] [14:21] Ayşe: Selam!
+[geçmiş] [14:22] Kerem: Nasılsınız?
+--- geçmiş sonu ---
+```
+
+The history is intentionally limited rather than being a permanent database.
+
+---
+
+# 👥 Multi-Client Support
+
+The server supports multiple simultaneous clients.
+
+The default maximum is:
+
+```text
+25 clients
+```
+
+This can be changed when starting the server:
+
+```bash
+python chatroom.py host \
+    --port 5000 \
+    --username Kerxunos \
+    --max-clients 50
+```
+
+---
+
+# 💻 Installation
+
+## Requirements
+
+* Python **3.10+**
+* TCP/IP network connectivity
+* `colorama`
+
+Python's standard library provides the rest of the functionality.
+
+### Install dependency
+
+```bash
+pip install colorama
+```
+
+Or:
+
+```bash
+python -m pip install colorama
+```
+
+---
+
+# 🚀 Quick Start
+
+## 1. Clone the repository
 
 ```bash
 git clone https://github.com/Kerxunos/Chatroom.git
 cd Chatroom
 ```
 
-### 2. Enter the application directory
+## 2. Start a server
 
 ```bash
-cd Application
+python chatroom.py host --port 5000 --username Kerxunos
 ```
 
-### 3. Install dependencies
+You should see something similar to:
 
-If the project reports a missing Python module, install the required dependency with:
+```text
+[*] Oda açıldı -> 0.0.0.0:5000
+```
+
+## 3. Connect a client
+
+On another terminal or another computer:
 
 ```bash
-pip install colorama
+python chatroom.py join \
+    --ip 127.0.0.1 \
+    --port 5000 \
+    --username Ayse
 ```
 
-> A dedicated `requirements.txt` is recommended for future versions so dependencies can be installed with a single command.
+You can now start chatting.
 
 ---
 
-## ▶️ Running the Application
+# 🔐 Password-Protected Room
 
-Start the **server first**.
-
-```bash
-python server.py
-```
-
-After the server is running, launch the client:
+### Host
 
 ```bash
-python client.py
+python chatroom.py host \
+    --port 5000 \
+    --username Kerxunos \
+    --password 1234
 ```
 
-The client should then connect to the active server and allow communication with other connected clients.
+### Client
 
-> The exact filenames or startup commands may change as the project evolves.
+```bash
+python chatroom.py join \
+    --ip 127.0.0.1 \
+    --port 5000 \
+    --username Ayse \
+    --password 1234
+```
 
----
-
-## 🔐 Security Considerations
-
-Chatroom is primarily an **educational networking project** and should not currently be considered production-ready.
-
-The project currently includes functionality that exposes network information to the server, such as client IP addresses.
-
-Before using the project in a production environment, consider implementing:
-
-* 🔒 Encrypted communication using TLS
-* 🔑 Authentication
-* 🔐 Secure password handling
-* 🛡️ Input validation
-* 🚦 Rate limiting
-* 🧱 Connection restrictions
-* 🧹 Safer log handling
-* 🔏 Privacy-conscious logging
-* 🛑 Proper client session termination
-* 🧪 Automated security testing
-
-**Do not expose the server directly to the public internet without properly reviewing and hardening the networking and security implementation.**
+If the password is incorrect, the server rejects the connection.
 
 ---
 
-## 🗺️ Roadmap
+# 🖥️ Interactive Mode
 
-The project is still evolving.
+You don't have to provide all arguments manually.
 
-Planned improvements include:
+Running:
 
-* [ ] 🇬🇧 English language support
-* [ ] 🌐 Improved online chat functionality
-* [ ] 🛠️ Additional server commands
-* [ ] 🐛 Bug fixing and stability improvements
-* [ ] 🚫 Improved client kicking system
-* [ ] 🔐 Stronger security
-* [ ] 📝 Improved logging system
-* [ ] 📦 Dependency management with `requirements.txt`
-* [ ] 🧪 Automated testing
-* [ ] 🖥️ Improved client interface
-* [ ] ⚡ Performance improvements
-* [ ] 📚 Better documentation
+```bash
+python chatroom.py
+```
+
+starts an interactive setup.
+
+You can choose:
+
+```text
+Oda mı açacaksınız yoksa bir odaya mı katılacaksınız?
+[H]ost / [J]oin:
+```
+
+The application then asks for the required information.
 
 ---
 
-## 📁 Project Structure
+# ⌨️ Commands
+
+## 👤 General Commands
+
+Available to everyone:
+
+| Command                 | Description             |
+| ----------------------- | ----------------------- |
+| `/help`                 | Show available commands |
+| `/users`                | List connected users    |
+| `/list`                 | Alias for `/users`      |
+| `/nick <name>`          | Change username         |
+| `/msg <user> <message>` | Send private message    |
+| `/w <user> <message>`   | Alias for `/msg`        |
+| `/me <action>`          | Send an action message  |
+| `/clear`                | Clear your terminal     |
+
+### Example
+
+```text
+/msg Ayse Merhaba, özelden konuşalım.
+```
+
+Output:
+
+```text
+(fısıltı -> Ayse): Merhaba, özelden konuşalım.
+```
+
+---
+
+## 👤 Client Commands
+
+| Command | Description                |
+| ------- | -------------------------- |
+| `/ping` | Measure round-trip latency |
+| `/quit` | Leave the room             |
+| `/exit` | Alias for `/quit`          |
+
+Example:
+
+```text
+/ping
+```
+
+Output:
+
+```text
+[*] Ping: 24 ms
+```
+
+---
+
+# 👑 Host Commands
+
+The room owner has additional controls.
+
+| Command                 | Description                          |
+| ----------------------- | ------------------------------------ |
+| `/mute <user>`          | Prevent a user from sending messages |
+| `/unmute <user>`        | Remove mute                          |
+| `/topic`                | Show current room topic              |
+| `/topic <text>`         | Change room topic                    |
+| `/kick <user>`          | Remove a user                        |
+| `/kick <user> <reason>` | Remove a user with a reason          |
+| `/shutdown`             | Close the room                       |
+
+### Example
+
+```text
+/topic Computer Engineering Room
+```
+
+Or:
+
+```text
+/kick Ayse Spam yapıldığı için
+```
+
+---
+
+# ⚙️ Configuration
+
+Several important limits can be configured directly in the source code.
+
+```python
+MAX_MESSAGE_LEN = 1000
+RATE_LIMIT_COUNT = 6
+RATE_LIMIT_WINDOW = 4.0
+DEFAULT_HISTORY_SIZE = 30
+DEFAULT_MAX_CLIENTS = 25
+SOCKET_POLL_TIMEOUT = 15
+HEARTBEAT_INTERVAL = 20
+IDLE_DISCONNECT_AFTER = 55
+RECONNECT_DELAYS = [1, 2, 5, 10, 15, 30]
+```
+
+### Current defaults
+
+| Setting                |                 Default |
+| ---------------------- | ----------------------: |
+| Maximum message length |         1000 characters |
+| Rate limit             |      6 messages / 4 sec |
+| Message history        |             30 messages |
+| Maximum clients        |                      25 |
+| Socket poll timeout    |                  15 sec |
+| Heartbeat interval     |                  20 sec |
+| Idle disconnect        |                  55 sec |
+| Reconnect delays       | 1, 2, 5, 10, 15, 30 sec |
+
+---
+
+# 🗂️ Logging
+
+The application creates separate log files for server and client activity.
+
+```text
+Server_INFO.log
+Client_INFO.log
+```
+
+Example entries:
+
+```text
+2026-09-27 14:20:12 - Server started on 0.0.0.0:5000 as Kerxunos
+2026-09-27 14:21:04 - Ayse connected from 192.168.1.25:53142
+2026-09-27 14:21:18 - Ayse: Hello everyone!
+```
+
+Logging uses Python's built-in `logging` module.
+
+---
+
+# 🛡️ Security Considerations
+
+Chatroom includes several basic protections:
+
+* Maximum message length
+* Rate limiting
+* Optional room password
+* Connection timeout handling
+* Maximum client limit
+* Host moderation
+* TCP keepalive
+* Input validation for usernames
+* Limited message history
+
+However, **Chatroom is not currently intended to be a production-grade secure messaging system.**
+
+## Important limitations
+
+The current protocol uses plain TCP with JSON messages.
+
+There is currently no:
+
+* TLS encryption
+* End-to-end encryption
+* User account system
+* Persistent authentication
+* Password hashing
+* Database-backed user management
+
+Therefore, sensitive information should **not** be transmitted through the application in its current form.
+
+If the project is deployed outside a trusted local network, additional security mechanisms should be implemented.
+
+---
+
+# 🧠 Technical Highlights
+
+This project was built to explore several practical networking concepts rather than simply implementing a basic chat socket.
+
+### Python Networking
+
+```python
+socket.socket(
+    socket.AF_INET,
+    socket.SOCK_STREAM
+)
+```
+
+The application uses TCP sockets for reliable transport.
+
+### Concurrency
+
+The server creates a dedicated daemon thread for each client connection:
+
+```python
+threading.Thread(
+    target=self._handle_client,
+    args=(conn, addr),
+    daemon=True
+)
+```
+
+This allows multiple clients to communicate concurrently.
+
+### Thread Safety
+
+Shared server state is protected using:
+
+```python
+threading.RLock()
+```
+
+This is particularly important for:
+
+* Client lists
+* Message broadcasting
+* Username management
+* Connection handling
+
+### Queue-Based Delivery
+
+The client uses:
+
+```python
+queue.Queue()
+```
+
+to temporarily store outbound messages while disconnected.
+
+### Efficient History Storage
+
+Recent messages are stored using:
+
+```python
+collections.deque
+```
+
+with a configurable maximum size.
+
+This prevents the history from growing indefinitely.
+
+---
+
+# 📁 Project Structure
+
+The application is intentionally kept lightweight and currently centers around a single Python entry point:
 
 ```text
 Chatroom/
 │
-├── Application/
-│   ├── client
-│   ├── server
-│   └── ...
-│
+├── chatroom.py
 ├── LICENSE
-└── README.md
+├── README.md
+│
+├── Server_INFO.log      # generated at runtime
+└── Client_INFO.log      # generated at runtime
 ```
 
-> The internal structure may change as development continues.
+Runtime log files are generated automatically and are not part of the core source code.
 
 ---
 
-## 🎯 Project Goals
+# 🧪 Example Session
 
-Chatroom is more than a simple messaging application.
+### Host
 
-The main purpose of the project is to provide practical experience with:
+```text
+$ python chatroom.py host --port 5000 --username Kerxunos
 
-* Client-server architecture
-* Network programming
-* Socket communication
-* Connection management
-* Logging
-* Command-based administration
-* Python application development
-* Basic network security concepts
+[*] Oda açıldı -> 0.0.0.0:5000
+Komutlar için /help yazın.
+```
 
-The project is intended to evolve as new networking and security concepts are implemented.
+### Client
+
+```text
+$ python chatroom.py join \
+    --ip 192.168.1.10 \
+    --port 5000 \
+    --username Ayse
+
+[*] 192.168.1.10:5000 adresine bağlanılıyor...
+[*] Odaya bağlanıldı! Host: Kerxunos
+```
+
+### Chat
+
+```text
+Ayse--> Merhaba!
+
+[14:32] Ayse: Merhaba!
+[14:32] Kerxunos: Hoş geldin!
+```
+
+### Temporary connection loss
+
+```text
+[!] Sunucudan uzun süredir yanıt yok,
+bağlantı yeniden kuruluyor...
+
+[*] 1 saniye sonra yeniden bağlanılacak (deneme 1)...
+
+[*] Odaya bağlanıldı! Host: Kerxunos
+--- kaçırdığınız mesajlar ---
+[geçmiş] [14:33] Kerxunos: Tekrar bağlandın mı?
+--- geçmiş sonu ---
+```
 
 ---
 
-## ⚠️ Disclaimer
+# 🗺️ Roadmap
 
-This project is provided for **educational and experimental purposes**.
+Possible future improvements:
 
-The developer is not responsible for misuse, unauthorized access, privacy violations, or any damage resulting from the use of this software.
-
-Always obtain appropriate authorization before testing networking or security-related functionality on systems that you do not own or administer.
+* [ ] 🔐 TLS encryption
+* [ ] 🔑 Secure authentication
+* [ ] 🗄️ Persistent message storage
+* [ ] 🧪 Automated unit and integration tests
+* [ ] 📊 Better connection statistics
+* [ ] 🖥️ Improved terminal UI
+* [ ] 🌍 English language support
+* [ ] 🔒 Password hashing
+* [ ] 🛡️ More robust input validation
+* [ ] 📦 Dependency management with `requirements.txt`
+* [ ] 🐳 Docker support
+* [ ] ⚡ Performance improvements
+* [ ] 📚 Protocol documentation
+* [ ] 🔄 More advanced reconnect/session handling
 
 ---
 
-## 📜 License
+# 🤝 Contributing
 
-This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
+Contributions, ideas and bug reports are welcome.
 
-See the [`LICENSE`](LICENSE) file for the complete license text.
+If you find a bug or have an idea for improving Chatroom:
+
+1. Fork the repository.
+2. Create a feature branch.
+
+```bash
+git checkout -b feature/my-feature
+```
+
+3. Commit your changes.
+
+```bash
+git commit -m "Add my feature"
+```
+
+4. Push the branch.
+
+```bash
+git push origin feature/my-feature
+```
+
+5. Open a Pull Request.
 
 ---
 
-## 👨‍💻 Author
+# ⚠️ Disclaimer
 
-**Kerxunos**
+Chatroom is primarily an **educational and experimental networking project**.
 
-GitHub:
-https://github.com/Kerxunos
+Do not use it to intercept, monitor, or collect network traffic or personal information without proper authorization.
+
+The developer is not responsible for misuse of the software.
+
+---
+
+# 📜 License
+
+This project is licensed under the **GNU General Public License v3.0**.
+
+See [`LICENSE`](LICENSE) for the complete license text.
+
+---
+
+# 👨‍💻 Author
+
+## Kerxunos
+
+Python developer interested in:
+
+* 🐍 Python
+* 🌐 Network Programming
+* 🔐 Cybersecurity
+* 🖥️ Software Development
+* ☁️ Cloud Technologies
+
+GitHub: **[github.com/Kerxunos](https://github.com/Kerxunos)**
 
 ---
 
 <p align="center">
-  Made with 🐍 Python
+
+### 💬 Chatroom
+
+**Simple interface. Reliable communication. Built with Python.**
+
+Made with 🐍 and ☕ by **Kerxunos**
+
 </p>
 
